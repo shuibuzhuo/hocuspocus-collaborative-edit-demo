@@ -1,10 +1,10 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import Collaboration from "@tiptap/extension-collaboration";
 import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useCallback, useEffect, useState } from "react";
 
 const colors = [
   "#958DF1",
@@ -70,20 +70,14 @@ const getRandomElement = (list: any) =>
 const getRandomColor = () => getRandomElement(colors);
 const getRandomName = () => getRandomElement(names);
 
-const getInitialUser = () => ({
-  color: getRandomColor(),
-  name: getRandomName(),
-});
+const getInitialUser = () => {
+  return {
+    name: getRandomName(),
+    color: getRandomColor(),
+  };
+};
 
-const Editor = ({
-  ydoc,
-  provider,
-  room,
-}: {
-  ydoc: any;
-  provider: any;
-  room: string;
-}) => {
+const Editor = ({ ydoc, provider, room }) => {
   const [status, setStatus] = useState("connecting");
   const [currentUser, setCurrentUser] = useState(getInitialUser);
 
@@ -109,12 +103,13 @@ const Editor = ({
   });
 
   useEffect(() => {
-    // Update status change
-    const statusHandler = (event: any) => {
+    // Update status changes
+    const statusHandler = (event) => {
       setStatus(event.status);
     };
 
     provider.on("status", statusHandler);
+
     return () => {
       provider.off("status", statusHandler);
     };
@@ -163,18 +158,6 @@ const Editor = ({
             className={editor.isActive("strike") ? "is-active" : ""}
           >
             Strike
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-            className={editor.isActive("bulletList") ? "is-active" : ""}
-          >
-            Bullet list
-          </button>
-          <button
-            onClick={() => editor.chain().focus().toggleCode().run()}
-            className={editor.isActive("code") ? "is-active" : ""}
-          >
-            Code
           </button>
         </div>
       </div>

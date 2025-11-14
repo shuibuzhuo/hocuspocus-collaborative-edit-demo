@@ -1,19 +1,17 @@
 "use client";
 
-import * as Y from "yjs";
-import { TiptapCollabProvider } from "@hocuspocus/provider";
-import Editor from "./Editor";
 import "./style.css";
 
+import { TiptapCollabProvider } from "@hocuspocus/provider";
+import * as Y from "yjs";
+
+import Editor from "./Editor";
+
 const appId = process.env.NEXT_PUBLIC_TIPTAP_APP_ID || "";
-const token = process.env.NEXT_PUBLIC_TIPTAP_TOKEN || "";
-console.log("appId...", appId);
-console.log("token...", token);
+const token = process.env.NEXT_PUBLIC_TIPTAP_TOKEN;
 const room = `room.${new Date().getFullYear().toString().slice(-2)}${
   new Date().getMonth() + 1
 }${new Date().getDate()}`;
-
-console.log("room...", room);
 
 // ydoc and provider for Editor A
 const ydocA = new Y.Doc();
